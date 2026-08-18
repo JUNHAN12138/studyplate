@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { Layout, Menu, Typography } from 'antd';
 import type { MenuProps } from 'antd';
 import { SortView } from './views/SortView';
+import { SearchView } from './views/SearchView';
+import { LinearView } from './views/LinearView';
+import { TreeView } from './views/TreeView';
+import { GraphView } from './views/GraphView';
+import { COView } from './views/COView';
+import { OSView } from './views/OSView';
+import { NetView } from './views/NetView';
+import { LimitView } from './views/math/LimitView';
+import { DerivView } from './views/math/DerivView';
+import { IntegView } from './views/math/IntegView';
 
 const { Sider, Content, Header } = Layout;
 const { Title } = Typography;
@@ -85,12 +95,40 @@ function Placeholder({ title }: { title: string }) {
   );
 }
 
+const VIEW_TITLES: Record<ViewKey, string> = {
+  'ds-sort': '排序算法可视化',
+  'ds-search': '查找算法可视化',
+  'ds-linear': '栈/队列可视化',
+  'ds-tree': '树结构可视化',
+  'ds-graph': '图算法可视化',
+  'co-booth': '计算机组成原理',
+  'co-float': '计算机组成原理',
+  'os-cpu': 'CPU 调度',
+  'os-proc': '进程状态转换',
+  'net-route': '路由算法',
+  'net-tcp': 'TCP 握手',
+  'math-limit': '初等函数与极限',
+  'math-deriv': '连续与导数',
+  'math-integ': '定积分与应用',
+};
+
 function ViewRouter({ viewKey }: { viewKey: ViewKey }) {
   switch (viewKey) {
-    case 'ds-sort':
-      return <SortView />;
-    default:
-      return <Placeholder title={viewKey} />;
+    case 'ds-sort': return <SortView />;
+    case 'ds-search': return <SearchView />;
+    case 'ds-linear': return <LinearView />;
+    case 'ds-tree': return <TreeView />;
+    case 'ds-graph': return <GraphView />;
+    case 'co-booth':
+    case 'co-float': return <COView />;
+    case 'os-cpu':
+    case 'os-proc': return <OSView />;
+    case 'net-route':
+    case 'net-tcp': return <NetView />;
+    case 'math-limit': return <LimitView />;
+    case 'math-deriv': return <DerivView />;
+    case 'math-integ': return <IntegView />;
+    default: return <Placeholder title={viewKey} />;
   }
 }
 
@@ -120,7 +158,7 @@ const App: React.FC = () => {
       <Layout>
         <Header style={{ background: '#fff', padding: '0 24px', borderBottom: '1px solid #f0f0f0', height: 48, lineHeight: '48px' }}>
           <span style={{ fontWeight: 600, fontSize: 15 }}>
-            {current === 'ds-sort' ? '排序算法可视化' : current}
+            {VIEW_TITLES[current] ?? current}
           </span>
         </Header>
         <Content style={{ padding: 24, overflowY: 'auto' }}>
